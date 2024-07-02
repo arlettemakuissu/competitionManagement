@@ -19,3 +19,4 @@ export async function getCompetitionToManage(id:number): Promise<ManageCompDto>{
     const res = await get(`api/v1/competitions/${id}/manage`);
     return res.data;
 }
+

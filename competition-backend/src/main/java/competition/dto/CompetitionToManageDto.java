@@ -17,4 +17,6 @@ public class CompetitionToManageDto implements BaseResponse{
 	private List<TeamSelect> teams;
 	private List<RefereeSelect> referees;
 	private List<SupervisorSelect> supervisors;
+	private List<RefereeSelect> freeReferees;
+	private List<SupervisorSelect> freeSupervisors;
 }

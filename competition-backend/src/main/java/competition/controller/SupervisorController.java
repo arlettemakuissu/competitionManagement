@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import competition.dto.SupervisorDto;
 import competition.dto.common.GenericResponse;
+import competition.dto.managecompetition.AssignRefereeDto;
+import competition.dto.managecompetition.AssignSupervisorDto;
 import competition.entity.user.User;
 import competition.service.supervisor.SupervisorService;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +38,19 @@ public class SupervisorController {
 			return new GenericResponse(false, 500, e.getMessage());
 		}
 	}
+	
+
+	@PostMapping("api/v1/supervisors/assign")
+	public GenericResponse assignSupervisore(@RequestBody AssignSupervisorDto dto, Principal principal) {
+		try {
+			supervisorService.assignSupervisor(dto,  User.builder().id(102L).build());
+			return new GenericResponse(true, 200, "");
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return new GenericResponse(false, 500, e.getMessage());
+		}
+	}
+	
 
 	@GetMapping("api/v1/supervisors")
 	public List<SupervisorDto> getSupervisors(Principal principal) {

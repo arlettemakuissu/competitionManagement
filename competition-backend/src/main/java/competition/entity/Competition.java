@@ -41,4 +41,10 @@ public class Competition {
 
 	@OneToMany(mappedBy = "competition")
 	private List<Team> teams;
+	
+	@OneToMany(mappedBy = "competition")
+	private List<CompetitionReferee> competitionReferees;
+	
+	@OneToMany(mappedBy = "competition")
+	private List<CompetitionSupervisor> competitionSupervisors ;
 }

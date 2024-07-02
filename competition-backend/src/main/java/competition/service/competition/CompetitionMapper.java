@@ -28,6 +28,8 @@ public class CompetitionMapper {
 					dto.getNbGroupe(),
 					dto.getNbQualified(),
 					admin,
+					null,
+					null,
 					null
 				);
 	}
@@ -68,18 +70,24 @@ public class CompetitionMapper {
 		List<TeamSelect> teams = competition.getTeams()
 				.stream().map(t->new TeamSelect(t.getId(), t.getName(), t.getEmail())).toList();
 		
+		List<RefereeSelect> refereesSelect = competition.getCompetitionReferees().stream().map(
+				cr->new RefereeSelect(cr.getReferee().getId(), cr.getReferee().getFirstName() + " "+ cr.getReferee().getLastName() , cr.getReferee().getEmail())).toList();
 
-		List<RefereeSelect> referees = freeReferees.stream().map(
+		List<SupervisorSelect> supervisorsSelect = competition.getCompetitionSupervisors().stream().map(
+				cs->new SupervisorSelect(cs.getSupervisor().getId(), cs.getSupervisor().getFirstName() + " "+ cs.getSupervisor().getLastName(), cs.getSupervisor().getEmail())).toList();
+		
+		
+		List<RefereeSelect> freeRefereesSelect = freeReferees.stream().map(
 				r->new RefereeSelect(r.getId(), r.getFirstName() + " "+ r.getLastName() , r.getEmail())).toList();
 		
 
-		List<SupervisorSelect> supervisors = freeSupervisor.stream().map(
+		List<SupervisorSelect> freeSupervisorsSelect = freeSupervisor.stream().map(
 				s->new SupervisorSelect(s.getId(), s.getFirstName() + " "+ s.getLastName(), s.getEmail())).toList();
 		
 		
 		
 		
-		return new CompetitionToManageDto(info, teams, referees, supervisors);
+		return new CompetitionToManageDto(info, teams,refereesSelect, supervisorsSelect, freeRefereesSelect, freeSupervisorsSelect);
 	}
 
 

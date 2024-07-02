@@ -2,12 +2,12 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import {  Button, Grid, ListItemText, MenuItem, MenuList, Select, TextField } from "@mui/material"
+import {  Button, Grid, ListItemText, MenuItem, MenuList, Select } from "@mui/material"
 import { ManageCompDto } from "../../dto/competition.dto";
 import When from "../../component/atoms/When";
 import { useState } from "react";
-import { saveTeam } from "../../service/teamService";
 import { useParams } from "react-router-dom";
+import { assignRefereeToCompetition } from "../../service/refereeService";
 
 interface ManageRefereesProps {
     competition: ManageCompDto;
@@ -17,27 +17,26 @@ interface ManageRefereesProps {
 function ManageReferees({ competition, refresh}:ManageRefereesProps) {
     const competitionId = useParams()?.id;
     const [addReferee, setAddReferee] = useState(false);
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
+    const [refereeSelectedId, setRefereeSelected] = useState<string | unknown>("");
     
-    const handleAddTeam = async() => {
+    const handleAddReferee = async() => {
         try{
-            const data = { email, name, competitionId};
-            const res = await saveTeam(data);
+            const data = { refereeId: refereeSelectedId, competitionId };
+            const res = await assignRefereeToCompetition(data);
             if(res.result && competitionId){
                 await refresh(competitionId);
                 clean();
             }else{
                 alert(res.message);
             }
+                
         }catch(e){
             console.log(e);
         }
     }
 
     const clean = async() => {
-        setName("");
-        setEmail("");
+        setRefereeSelected("");
         setAddReferee(false);
     }
 
@@ -51,30 +50,33 @@ function ManageReferees({ competition, refresh}:ManageRefereesProps) {
             
             <When condition={addReferee}>
                 <Grid> 
-                    <When condition={competition?.referees?.length>0}>
-                        <Select fullWidth placeholder="SELECTION UN ARBITRE PARMIS">
+                    <When condition={competition?.freeReferees?.length>0}>
+                        <Select onChange={(e)=>{setRefereeSelected(e.target.value)}} fullWidth placeholder="SELECTION UN ARBITRE PARMIS">
                         {
-                            competition?.referees?.map((referee,i)=>(
-                                <MenuItem  value={referee.id} sx={{backgroundColor: "#AAAAAA"}} key={JSON.stringify({referee, i})}>
-                                    <ListItemText>{referee.label} </ListItemText>
+                            competition?.freeReferees?.map((referee,i)=>(
+                                <MenuItem  value={referee.id} key={JSON.stringify({referee, i})}>
+                                    <ListItemText>{referee.name} </ListItemText>
                                 </MenuItem>
                             ))
                         }
                         </Select>
                     </When> 
                     
-                    <TextField value={name} onChange={(e)=>{ setName(e.target.value)}} fullWidth placeholder="NOM DE L EQUIPE"/>
+                    <When condition={!(competition?.freeReferees?.length>0)}>
+                        <h5>IL FAUT AJOUTER VOS ARBITRES AVANT DE LES ASSOCIERS A UNE COMPETITION</h5>
+                    </When> 
+                    
                      <Grid container justifyContent="space-between">
                         <Button onClick={clean}  variant="contained" color="error">ANNULER</Button> 
-                        <Button onClick={handleAddTeam}  variant="contained" color="success">AJOUTER</Button> 
+                        <Button onClick={handleAddReferee}  variant="contained" color="success">AJOUTER</Button> 
                     </Grid>
                 </Grid>
             </When>
 
-            <When condition={competition.teams.length>0}>
+            <When condition={competition?.referees?.length>0}>
                 <MenuList>
                 {
-                    competition.teams.map((team,i)=>(
+                    competition?.referees?.map((team,i)=>(
                         <MenuItem sx={{backgroundColor: "#AAAAAA"}} key={JSON.stringify({team, i})}>
                             <ListItemText>{team.name} </ListItemText>
                         </MenuItem>

@@ -28,5 +28,6 @@ public class Referee {
 	@ManyToOne
 	@JoinColumn(nullable = false, name = "create_by")
 	private User admin;
+	
 
 }

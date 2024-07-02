@@ -9,6 +9,7 @@ import { ManageCompDto, initManageCompDto } from "../../dto/competition.dto";
 import ManageTeams from "./ManageTeams";
 import ManageReferees from "./ManageReferees";
 import ManageSupervisor from "./ManageSupervisor";
+import ManagePhase from "./ManagePhase";
 
 function ManageCompetition() {
     const competitionId = useParams()?.id;
@@ -57,7 +58,7 @@ return (
                 <ManageSupervisor competition={competition} refresh={getData} /> 
             </Grid>
             <Grid item md={3}>
-                <h5>EDIT</h5>
+                <ManagePhase competition={competition} />
             </Grid>
         </Grid>
     </Grid>

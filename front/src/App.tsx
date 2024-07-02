@@ -20,6 +20,8 @@ import AddEditCompetition from './pages/competition/AddEditCompetition';
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import CompetitionGroup from './pages/competition/group/CompetitionGroup';
+import CompetitionElimination from './pages/competition/group/CompetitionElimination';
 
 const router = createBrowserRouter([
   {
@@ -61,6 +63,14 @@ const router = createBrowserRouter([
           {
             path: "edit-competition/:id",
             element: <AddEditCompetition />
+          },
+          {
+            path: "manage-competitions/:id/groups",
+            element: <CompetitionGroup/>
+          },
+          {
+            path: "manage-competitions/:id/elimination",
+            element: <CompetitionElimination />
           },
         ]
       },

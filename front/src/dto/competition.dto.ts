@@ -15,10 +15,10 @@ export interface CompetitionDto {
 export interface ManageCompDto {
     info: CreateEditCompetitionDto;
     teams:TeamSelectDto[];
-    supervisors:OptionDto[];
-    referees:OptionDto[];
-    freeSupervisors:OptionDto[];
-    freeReferees:OptionDto[];
+    supervisors:SupervisorSelectDto[];
+    referees:RefereeSelectDto[];
+    freeSupervisors:SupervisorSelectDto[];
+    freeReferees:RefereeSelectDto[];
 }
 
 export interface TeamSelectDto {
@@ -27,6 +27,17 @@ export interface TeamSelectDto {
     email:string;
 }
 
+export interface RefereeSelectDto {
+    id: number;
+    name:string;
+    email:string;
+}
+
+export interface SupervisorSelectDto {
+    id: number;
+    name:string;
+    email:string;
+}
 
 export interface OptionDto {
     id: number;
